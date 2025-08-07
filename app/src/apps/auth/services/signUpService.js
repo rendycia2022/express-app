@@ -13,43 +13,43 @@ function writeData(newItem) {
 }
 
 exports.getAll = () => {
-    return readData();
+    return readData(); // baca file json
 };
 
-exports.getById = (id) => {
+exports.getBy = (params) => {
     const items = readData();
-    return items.find(u => u.id === parseInt(id));
+
+    // cari data pada json parameter
+    return items.find(item =>
+        Object.entries(params).every(([key, val]) => item[key] === val)
+    );
 };
 
 exports.create = (data) => {
-    const items = readData(); // baca file json yang sudah ada
+    const items = readData();
     items.push(data); // push data baru ke data json
     writeData(items); // tulis ulang file json dengan data baru
     return data;
 };
 
-exports.update = (id, data) => {
+exports.update = (params, data) => {
     const items = readData();
-    const index = items.findIndex(u => u.id === parseInt(id));
+    const index = items.findIndex(item =>
+        Object.entries(params).every(([key, val]) => item[key] === val)
+    );
     if (index === -1) return null;
-    if(data.voucher){
-        let credit = 0;
-        if(items[index].credit){
-            credit = items[index].credit;
-        }
-        data.credit = credit + data.voucher;
-        delete data['voucher'];
-    }
-    items[index] = { ...items[index], ...data };
+    items[index] = { ...items[index], ...data }; // update data baru pada index yang ditemukan
     writeData(items);
     return items[index];
 };
 
-exports.delete = (id) => {
+exports.delete = (params) => {
     let items = readData();
-    const index = items.findIndex(u => u.id === parseInt(id));
+    const index = items.findIndex(item =>
+        Object.entries(params).every(([key, val]) => item[key] === val)
+    );
     if (index === -1) return false;
-    items.splice(index, 1);
+    items.splice(index, 1); // delete data pada index yang ditemukan
     writeData(items);
     return true;
 };
