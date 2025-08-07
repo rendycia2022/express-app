@@ -14,7 +14,8 @@ Struktur Folder
 ./src/app.js # Entry point utama aplikasi
 
 ./src/apps # modular services
-./src/apps/development # development
+./src/apps/development # development module
+./src/apps/auth # service untuk authentification
 
 
 ## 📁 Struktur Proyek
