@@ -1,0 +1,5 @@
+# Node modules (jangan commit dependensi)
+.app/node_modules/
+
+# Environment variables
+.app/env

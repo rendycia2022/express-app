@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "email": "alice@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "email": "bob@example.com"
+  },
+  {
+    "id": 3,
+    "name": "Carl",
+    "email": "carl@example.com"
+  },
+  {
+    "id": 1746674441734,
+    "name": "Dune",
+    "email": "dune@example.com"
+  },
+  {
+    "id": 1746674594497,
+    "name": "Emily",
+    "email": "emily@example.com",
+    "Address": "Bekasi"
+  },
+  {
+    "id": 1746674624998,
+    "name": "Flek",
+    "email": "flek@example.com",
+    "Address": "Bandung",
+    "credit": 500000
+  },
+  {
+    "id": 1746674682041,
+    "name": "Greg",
+    "email": "greg@example.com",
+    "Address": "Jakarta"
+  },
+  {
+    "id": 1746675500467,
+    "name": "Howard",
+    "email": "howard@example.com",
+    "Address": "Bekasi",
+    "credit": 1500000
+  }
+]

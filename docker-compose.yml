@@ -1,0 +1,19 @@
+services:
+  node: # Nama layanan Anda (bisa apa saja, misalnya: backend, nodejs-service)
+    build:
+      context: ./app # Konteks build adalah folder 'app' yang berisi Dockerfile dan kode sumber
+    ports:
+      - "3000:3000" # Memetakan port 3000 di host ke port 3000 di dalam kontainer
+
+    volumes:
+      - ./app:/usr/src/app
+      # Baris di bawah ini penting!
+      # Ini mencegah folder node_modules lokal Anda (jika ada) menimpa
+      # node_modules yang diinstal di dalam kontainer.
+      # Ini membuat volume anonim di atas node_modules di dalam kontainer.
+      - /usr/src/app/node_modules
+
+    # Mengganti perintah default (CMD di Dockerfile)
+    # untuk menjalankan aplikasi menggunakan script 'dev' (nodemon)
+    command: npm run dev
+    restart: on-failure
