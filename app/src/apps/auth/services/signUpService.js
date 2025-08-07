@@ -22,15 +22,10 @@ exports.getById = (id) => {
 };
 
 exports.create = (data) => {
-    const items = readData();
-    if(data.voucher){
-        data.credit = data.voucher;
-        delete data['voucher'];
-    }
-    const newItem = { id: Date.now(), ...data };
-    items.push(newItem);
-    writeData(items);
-    return newItem;
+    const items = readData(); // baca file json yang sudah ada
+    items.push(data); // push data baru ke data json
+    writeData(items); // tulis ulang file json dengan data baru
+    return data;
 };
 
 exports.update = (id, data) => {

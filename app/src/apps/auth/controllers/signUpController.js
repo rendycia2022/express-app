@@ -1,4 +1,6 @@
 const service = require('../services/signUpService');
+const { v4: uuidv4 } = require('uuid');
+const {timestamp} = require('../../../middlewares/date');
 
 exports.get = (req, res) => {
     const items = service.getAll();
@@ -12,7 +14,15 @@ exports.getById = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    const item = service.create(req.body);
+    const payload = req.body;
+    // Entry ID to new data
+    newItem = {
+        id: uuidv4(),
+        created_at: timestamp(), 
+        updated_at: timestamp(), 
+        ...payload
+    }
+    const item = service.create(newItem);
     res.status(201).json(item);
 };
 
