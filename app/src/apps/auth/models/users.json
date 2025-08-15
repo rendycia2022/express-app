@@ -18,10 +18,11 @@
   {
     "id": "6916de2a-bf1b-4a2a-8310-077ec52a9a86",
     "created_at": "2025-08-07 15:34:55",
-    "updated_at": "2025-08-08 10:51:37",
+    "updated_at": "2025-08-15 14:34:44",
     "email": "user3@mail.com",
     "name": "User tiga",
-    "password": "$2b$10$FS0vw9/GgD8fKHXVoz6GMOIjErVNUzvmLuOf5vbAoCQpmPw7jjrdC"
+    "password": "$2b$10$nx85LnP5dLM6Ghp40X5AkOizYmSi3v.z3ftizvlCHKCl6v3MVdx.y",
+    "active": 1
   },
   {
     "id": "5f19b167-7ffb-4c30-a47c-bb8b144e35a3",

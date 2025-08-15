@@ -1,16 +1,16 @@
-const service = require('../services/signUpService');
+const usersService = require('../services/usersService');
 const { v4: uuidv4 } = require('uuid');
 const {timestamp} = require('../../../middlewares/date');
 const bcrypt = require('bcryptjs');
 
 exports.get = (req, res) => {
-    const items = service.getAll();
+    const items = usersService.getAll();
     res.json(items);
 };
 
 exports.getById = (req, res) => {
-    const item = service.getBy({ id: req.params.id});
-    if (!item) return res.status(404).json({ message: 'item not found' });
+    const item = usersService.getBy({ id: req.params.id});
+    if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
 };
 
@@ -18,7 +18,7 @@ exports.create = async (req, res) => {
     const payload = req.body;
 
     // cek apakah data sudah pernah ada?
-    const getData = service.getBy({ email: payload.email});
+    const getData = usersService.getBy({ email: payload.email});
     if (!getData) {
         // jika data kosong maka buat data baru
 
@@ -34,11 +34,11 @@ exports.create = async (req, res) => {
             active: 1,
             ...payload
         }
-        const item = service.create(newItem);
+        const item = usersService.create(newItem);
         return res.status(201).json(item);
     }
 
-    res.status(500).json({message: "item exist"});
+    res.status(500).json({message: "item exist."});
 };
 
 exports.update = async (req, res) => {
@@ -59,8 +59,8 @@ exports.update = async (req, res) => {
         payload.password = await hashPassword(payload.password);
     }
 
-    const item = service.update(params, payload);
-    if (!item) return res.status(404).json({ message: 'item not found' });
+    const item = usersService.update(params, payload);
+    if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
 };
 
@@ -73,11 +73,11 @@ exports.delete = (req, res) => {
         updated_at: timestamp(), 
         ...req.body
     };
-    const item = service.update(params, payload);
+    const item = usersService.update(params, payload);
 
     // Jika dilakukan hard delete
-    // const success = service.delete(params);
-    if (!success) return res.status(404).json({ message: 'item not found' });
+    // const success = usersService.delete(params);
+    if (!success) return res.status(404).json({ message: 'item not found.' });
     res.status(204).send();
 };
 
