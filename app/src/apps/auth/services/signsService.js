@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dataPath = path.join(__dirname, '../models/users.json');
+const dataPath = path.join(__dirname, '../models/signs.json');
 
 function readData() {
   const data = fs.readFileSync(dataPath);
