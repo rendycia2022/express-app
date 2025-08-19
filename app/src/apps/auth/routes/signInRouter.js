@@ -2,19 +2,13 @@ const express = require('express');
 const router = express.Router();
 const thisController = require('../controllers/signInController');
 
-// GET semua user
-router.get('/', thisController.get);
-
 // GET user berdasarkan ID
-router.get('/:id', thisController.getById);
+router.get('/:token', thisController.getBy);
 
 // POST buat user baru
 router.post('/', thisController.create);
 
-// PUT update user
-router.put('/:id', thisController.update);
-
 // DELETE user
-router.delete('/:id', thisController.delete);
+router.delete('/:token', thisController.delete);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const usersService = require('../services/signsService');
 const { v4: uuidv4 } = require('uuid');
 const {timestamp} = require('../../../middlewares/date');
+const {hashPassword} = require('../../../middlewares/authentication');
 const bcrypt = require('bcryptjs');
 
 exports.get = (req, res) => {
@@ -77,12 +78,7 @@ exports.delete = (req, res) => {
 
     // Jika dilakukan hard delete
     // const success = usersService.delete(params);
-    if (!success) return res.status(404).json({ message: 'item not found.' });
-    res.status(204).send();
+    // if (!success) return res.status(404).json({ message: 'item not found.' });
+    
+    res.status(204).send({ message: 'item deleted.' });
 };
-
-async function hashPassword(plainPassword) {
-    const saltRounds = 10; // Semakin besar, semakin aman, tapi lebih lambat
-    const hashed = await bcrypt.hash(plainPassword, saltRounds);
-    return hashed;
-}
