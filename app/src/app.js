@@ -16,4 +16,16 @@ app.get('/', (req, res) => {
 const routes = require('./routers');
 app.use('/api', routes);
 
+// error log handling
+const { createLogger, transports, format } = require("winston");
+const logger = createLogger({
+  level: "error",
+  format: format.combine(format.timestamp(), format.json()),
+  transports: [new transports.File({ filename: "logs/error.log" })]
+});
+app.use((err, req, res, next) => {
+  logger.error(err.message, { stack: err.stack });
+  res.status(500).json({ message: err.message });
+});
+
 module.exports = app;
