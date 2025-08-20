@@ -1,16 +1,23 @@
-const usersService = require('../services/signsService');
+// models
+const path = require('path');
+const signsModel = path.join(__dirname, '../models/signs.json');
+const modelService = require('../services/modelsService');
+
+// services
+const signService = new modelService(signsModel);
+
 const { v4: uuidv4 } = require('uuid');
 const {timestamp} = require('../../../middlewares/date');
 const {hashPassword} = require('../../../middlewares/authentication');
 const bcrypt = require('bcryptjs');
 
 exports.get = (req, res) => {
-    const items = usersService.getAll();
+    const items = signService.getAll();
     res.json(items);
 };
 
 exports.getById = (req, res) => {
-    const item = usersService.getBy({ id: req.params.id});
+    const item = signService.getBy({ id: req.params.id});
     if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
 };
@@ -19,7 +26,7 @@ exports.create = async (req, res) => {
     const payload = req.body;
 
     // cek apakah data sudah pernah ada?
-    const getData = usersService.getBy({ email: payload.email});
+    const getData = signService.getBy({ email: payload.email});
     if (!getData) {
         // jika data kosong maka buat data baru
 
@@ -35,7 +42,7 @@ exports.create = async (req, res) => {
             active: 1,
             ...payload
         }
-        const item = usersService.create(newItem);
+        const item = signService.create(newItem);
         return res.status(201).json(item);
     }
 
@@ -60,7 +67,7 @@ exports.update = async (req, res) => {
         payload.password = await hashPassword(payload.password);
     }
 
-    const item = usersService.update(params, payload);
+    const item = signService.update(params, payload);
     if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
 };
@@ -74,10 +81,10 @@ exports.delete = (req, res) => {
         updated_at: timestamp(), 
         ...req.body
     };
-    const item = usersService.update(params, payload);
+    const item = signService.update(params, payload);
 
     // Jika dilakukan hard delete
-    // const success = usersService.delete(params);
+    // const success = signService.delete(params);
     // if (!success) return res.status(404).json({ message: 'item not found.' });
     
     res.status(204).send({ message: 'item deleted.' });

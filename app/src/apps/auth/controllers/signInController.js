@@ -1,5 +1,13 @@
-const signsService = require('../services/signsService');
-const sessionsService = require('../services/sessionsService');
+// models
+const path = require('path');
+const sessionsModel = path.join(__dirname, '../models/sessions.json');
+const signsModel = path.join(__dirname, '../models/signs.json');
+const modelService = require('../services/modelsService');
+
+// services
+const sessionService = new modelService(sessionsModel);
+const signService = new modelService(signsModel);
+
 const { v4: uuidv4 } = require('uuid');
 const {timestamp} = require('../../../middlewares/date');
 const {checkPassword} = require('../../../middlewares/authentication');
@@ -10,7 +18,7 @@ exports.getBy = (req, res) => {
         token: req.params.token,
         active: 1
     }
-    const item = sessionsService.getBy(params);
+    const item = sessionService.getBy(params);
     if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
 };
@@ -19,7 +27,7 @@ exports.create = async (req, res) => {
     const payload = req.body;
 
     // cek apakah data ada?
-    const getData = await signsService.getBy({ email: payload.email});
+    const getData = await signService.getBy({ email: payload.email});
     if (getData) {
         // jika data ada, maka proses
 
@@ -42,7 +50,7 @@ exports.create = async (req, res) => {
             updated_at: timestamp(), 
             active: 1
         }
-        const item = sessionsService.create(newItem);
+        const item = sessionService.create(newItem);
 
         return res.status(201).json(item);
     }
@@ -58,20 +66,20 @@ exports.delete = async (req, res) => {
     await deleteToken(paramsSession);
 
     // Jika dilakukan hard delete
-    // const success = signsService.delete(params);
+    // const success = signService.delete(params);
     // if (!success) return res.status(404).json({ message: 'item not found.' });
     
     res.status(204).send({ message: 'item deleted.' });
 };
 
 async function deleteToken(paramsSession){
-    const existingToken = await sessionsService.getBy(paramsSession);
+    const existingToken = await sessionService.getBy(paramsSession);
     if(existingToken){
         const payloadSession = {
             active: 0,
             updated_at: timestamp(),
         };
-        sessionsService.update(paramsSession, payloadSession);
+        sessionService.update(paramsSession, payloadSession);
     }
 
     return existingToken;
