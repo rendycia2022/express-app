@@ -6,7 +6,7 @@ const thisController = require('../controllers/devController');
 router.get('/', thisController.get);
 
 // GET user berdasarkan ID
-router.get('/:id', thisController.getById);
+router.get('/:id', thisController.getBy);
 
 // POST buat user baru
 router.post('/', thisController.create);
