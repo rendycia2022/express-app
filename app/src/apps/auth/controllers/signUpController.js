@@ -8,8 +8,7 @@ const signService = new modelService(signsModel);
 
 const { v4: uuidv4 } = require('uuid');
 const {timestamp} = require('../../../middlewares/date');
-const {hashPassword} = require('../../../middlewares/authentication');
-const bcrypt = require('bcryptjs');
+const {hashPassword} = require('../../../middlewares/password');
 
 exports.get = (req, res) => {
     const items = signService.getAll();
