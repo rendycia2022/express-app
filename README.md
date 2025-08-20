@@ -2,7 +2,7 @@
 
 Sebuah aplikasi Node.js berbasis Express dengan arsitektur modular. Semua layanan (service) berada dalam satu aplikasi, dipisah berdasarkan fitur.
 
-Struktur Folder
+## 📁 Struktur Project
 ./package-lock.json
 ./package.json
 ./Dockerfile
@@ -16,6 +16,3 @@ Struktur Folder
 ./src/apps # modular services
 ./src/apps/development # development module
 ./src/apps/auth # service untuk authentification
-
-
-## 📁 Struktur Proyek
