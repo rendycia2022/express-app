@@ -6,43 +6,44 @@ const modelService = require('../services/modelsService');
 // services
 const devService = new modelService(devModel);
 
-exports.get = (req, res) => {
-    const items = "hallo this is weather controller"
-    res.json(items);
-};
+exports.get = async (req, res) => {
+    const ip = await getPublicIp();
 
-exports.getBy = (req, res) => {
-    const params = {
-        id: Number(req.params.id)
+    // get Coordinates
+    let location = {};
+    try {
+        const geoRes = await fetch(`http://ip-api.com/json/${ip}`);
+        const geolocation = await geoRes.json();
+
+        location = geolocation;
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    const item = devService.getBy(params);
-    if (!item) return res.status(404).json({ message: 'item not found' });
-    res.json(item);
-};
 
-exports.create = (req, res) => {
-    const item = devService.create(req.body);
-    res.status(201).json(item);
-};
+    // get weather 
+    try {
+        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&current_weather=true`);
+        const weather = await weatherRes.json();
 
-exports.update = (req, res) => {
-    const params = {
-        id: Number(req.params.id)
+        res.json({
+            success: true,
+            data: {
+                location: location,
+                weather: weather
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
-    const payload = {
-        ...req.body
-    };
-
-    const item = devService.update(params, payload);
-    if (!item) return res.status(404).json({ message: 'item not found' });
-    res.json(item);
 };
 
-exports.delete = (req, res) => {
-    const params = {
-        id: Number(req.params.id)
+async function getPublicIp(){
+    try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+
+        return data.ip;
+    } catch (error) {
+        return res.status(500).json({ success: false, error: error.message });
     }
-    const success = devService.delete(params);
-    if (!success) return res.status(404).json({ message: 'item not found' });
-    res.status(204).send();
-};
+}
