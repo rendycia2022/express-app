@@ -3,3 +3,6 @@
 
 # Environment variables
 .app/env
+
+# logs file
+.app/logs/

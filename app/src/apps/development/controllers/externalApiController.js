@@ -1,33 +1,36 @@
-// models
-const path = require('path');
-
-exports.weather = async (req, res) => {
-    // get IP Public
-    const ipPublic = await fetchApi(`https://api.ipify.org?format=json`);
-
-    // get Coordinate
-    const location = await fetchApi(`http://ip-api.com/json/${ipPublic.ip}`);
-
-    // get weather
-    const weather = await fetchApi(`https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&current_weather=true`);
-
-    // send to front
-    res.status(200).json({
-        success: true,
-        data: {
-            location: location,
-            weather: weather
-        }
-    });
-};
-
-async function fetchApi(url){
+export async function weather(req, res) {
     try {
-        const response = await fetch(url);
-        const data = await response.json();
+        // Get IP Public
+        const ipPublic = await fetchApi(`https://api.ipify.org?format=json`);
 
-        return data;
+        // Get Coordinate
+        const location = await fetchApi(`http://ip-api.com/json/${ipPublic.ip}`);
+
+        // Get Weather
+        const weather = await fetchApi(
+            `https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lon}&current_weather=true`
+        );
+
+        // Send to frontend
+        res.status(200).json({
+            success: true,
+            data: { location, weather },
+        });
     } catch (error) {
-        return res.status(500).json({ success: false, error: error.message });
+        // Centralized error handling
+        res.status(500).json({
+            success: false,
+            error: error.message,
+        });
     }
+}
+
+async function fetchApi(url) {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Fetch failed: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
 }
