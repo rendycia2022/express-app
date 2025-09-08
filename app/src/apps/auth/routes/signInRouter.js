@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const thisController = require('../controllers/signInController');
+import { Router } from 'express';
+const router = Router();
+import { getBy, create, remove } from '../controllers/signInController.js';
 
 // GET user berdasarkan ID
-router.get('/:token', thisController.getBy);
+router.get('/:token', getBy);
 
 // POST buat user baru
-router.post('/', thisController.create);
+router.post('/', create);
 
 // DELETE user
-router.delete('/:token', thisController.delete);
+router.delete('/:token', remove);
 
-module.exports = router;
+export default router;

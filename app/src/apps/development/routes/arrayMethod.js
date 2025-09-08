@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const arrayController = require('../controllers/arrayMethodController');
+import { Router } from 'express';
+const router = Router();
+import { mapMethod, filterMethod, findMethod, someMethod, everyMethod, reduceMethod } from '../controllers/arrayMethodController.js';
 
-router.get('/map', arrayController.mapMethod);
-router.get('/filter', arrayController.filterMethod);
-router.get('/find', arrayController.findMethod);
-router.get('/some', arrayController.someMethod);
-router.get('/every', arrayController.everyMethod);
-router.get('/reduce', arrayController.reduceMethod);
+router.get('/map', mapMethod);
+router.get('/filter', filterMethod);
+router.get('/find', findMethod);
+router.get('/some', someMethod);
+router.get('/every', everyMethod);
+router.get('/reduce', reduceMethod);
 
-module.exports = router;
+export default router;

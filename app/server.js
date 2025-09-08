@@ -1,8 +1,8 @@
 // src/server.js
-const app = require('./src/app');
-const config = require('./src/config/config');
+import app from './src/app.js';
+import { PORT_APP } from './src/config/config.js';
 
-const port = config.PORT_APP || 3000;
+const port = PORT_APP || 3000;
 
 app.listen(port, () => {
   console.log(`Server berjalan di port ${port}`);

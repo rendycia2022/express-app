@@ -1,19 +1,23 @@
 // models
-const path = require('path');
-const sessionsModel = path.join(__dirname, '../models/sessions.json');
-const signsModel = path.join(__dirname, '../models/signs.json');
-const modelService = require('../services/modelsService');
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const sessionsModel = join(__dirname, '../models/sessions.json');
+const signsModel = join(__dirname, '../models/signs.json');
+import modelService from '../services/modelsService.js';
 
 // services
 const sessionService = new modelService(sessionsModel);
 const signService = new modelService(signsModel);
 
-const { v4: uuidv4 } = require('uuid');
-const {timestamp} = require('../../../middlewares/date');
-const {checkPassword} = require('../../../middlewares/password');
+import { v4 as uuidv4 } from 'uuid';
+import { timestamp } from '../../../middlewares/date.js';
+import { checkPassword } from '../../../middlewares/password.js';
 
 
-exports.getBy = (req, res) => {
+export function getBy(req, res) {
     const params = {
         token: req.params.token,
         active: 1
@@ -21,9 +25,9 @@ exports.getBy = (req, res) => {
     const item = sessionService.getBy(params);
     if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
-};
+}
 
-exports.create = async (req, res) => {
+export async function create(req, res) {
     const payload = req.body;
 
     // cek apakah data ada?
@@ -56,9 +60,9 @@ exports.create = async (req, res) => {
     }
 
     res.status(500).json({message: "item not found."});
-};
+}
 
-exports.delete = async (req, res) => {
+export async function remove(req, res) {
     
     const paramsSession = {
         token: req.params.token
@@ -70,7 +74,7 @@ exports.delete = async (req, res) => {
     // if (!success) return res.status(404).json({ message: 'item not found.' });
     
     res.status(204).send({ message: 'item deleted.' });
-};
+}
 
 async function deleteToken(paramsSession){
     const existingToken = await sessionService.getBy(paramsSession);

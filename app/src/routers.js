@@ -1,12 +1,24 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
 
-router.use('/dev', require('./apps/development/routes/dev'));
-router.use('/external', require('./apps/development/routes/externalApi'));
-router.use('/method/array', require('./apps/development/routes/arrayMethod'));
+import dev from './apps/development/routes/dev.js';
+router.use('/dev', dev);
+
+import externalApi from './apps/development/routes/externalApi.js';
+router.use('/external', externalApi);
+
+import arrayMethod from './apps/development/routes/arrayMethod.js';
+router.use('/method/array', arrayMethod);
+
+
+import xApi from './apps/development/routes/xApi.js';
+router.use('/x', xApi);
 
 // auth service
-router.use('/signup', require('./apps/auth/routes/signUpRouter'));
-router.use('/signin', require('./apps/auth/routes/signInRouter'));
+import signUpRouter from './apps/auth/routes/signUpRouter.js';
+router.use('/signup', signUpRouter);
 
-module.exports = router;
+import signInRouter from './apps/auth/routes/signInRouter.js';
+router.use('/signin', signInRouter);
+
+export default router;

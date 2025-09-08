@@ -1,31 +1,35 @@
 // models
-const path = require('path');
-const devModel = path.join(__dirname, '../models/dev.json');
-const modelService = require('../services/modelsService');
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const devModel = join(__dirname, '../models/dev.json');
+import modelService from '../services/modelsService.js';
 
 // services
 const devService = new modelService(devModel);
 
-exports.get = (req, res) => {
+export function get(req, res) {
     const items = devService.getAll();
     res.json(items);
-};
+}
 
-exports.getBy = (req, res) => {
+export function getBy(req, res) {
     const params = {
         id: Number(req.params.id)
     }
     const item = devService.getBy(params);
     if (!item) return res.status(404).json({ message: 'item not found' });
     res.json(item);
-};
+}
 
-exports.create = (req, res) => {
+export function create(req, res) {
     const item = devService.create(req.body);
     res.status(201).json(item);
-};
+}
 
-exports.update = (req, res) => {
+export function update(req, res) {
     const params = {
         id: Number(req.params.id)
     }
@@ -36,13 +40,13 @@ exports.update = (req, res) => {
     const item = devService.update(params, payload);
     if (!item) return res.status(404).json({ message: 'item not found' });
     res.json(item);
-};
+}
 
-exports.delete = (req, res) => {
+export function remove(req, res) {
     const params = {
         id: Number(req.params.id)
     }
     const success = devService.delete(params);
     if (!success) return res.status(404).json({ message: 'item not found' });
     res.status(204).send();
-};
+}

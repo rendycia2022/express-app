@@ -1,8 +1,5 @@
-require('dotenv').config(); // Muat variabel dari .env
+import 'dotenv/config';
 
-const hostname = "http://192.168.0.170:"+process.env.PORT_APP;
-
-module.exports = {
-  PORT_APP: process.env.PORT_APP,
-  HOSTNAME: hostname,
-};
+export const PORT_APP = process.env.PORT_APP;
+export const HOSTNAME = `http://192.168.0.170:${PORT_APP}`;
+export const X_TOKEN = process.env.BEARER_TOKEN_X;

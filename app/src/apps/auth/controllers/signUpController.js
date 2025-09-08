@@ -1,27 +1,31 @@
 // models
-const path = require('path');
-const signsModel = path.join(__dirname, '../models/signs.json');
-const modelService = require('../services/modelsService');
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const signsModel = join(__dirname, '../models/signs.json');
+import modelService from '../services/modelsService.js';
 
 // services
 const signService = new modelService(signsModel);
 
-const { v4: uuidv4 } = require('uuid');
-const {timestamp} = require('../../../middlewares/date');
-const {hashPassword} = require('../../../middlewares/password');
+import { v4 as uuidv4 } from 'uuid';
+import { timestamp } from '../../../middlewares/date.js';
+import { hashPassword } from '../../../middlewares/password.js';
 
-exports.get = (req, res) => {
+export function get(req, res) {
     const items = signService.getAll();
     res.json(items);
-};
+}
 
-exports.getById = (req, res) => {
+export function getById(req, res) {
     const item = signService.getBy({ id: req.params.id});
     if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
-};
+}
 
-exports.create = async (req, res) => {
+export async function create(req, res) {
     const payload = req.body;
 
     // cek apakah data sudah pernah ada?
@@ -46,9 +50,9 @@ exports.create = async (req, res) => {
     }
 
     res.status(500).json({message: "item exist."});
-};
+}
 
-exports.update = async (req, res) => {
+export async function update(req, res) {
     // data dari url
     const params = {
         id: req.params.id
@@ -69,15 +73,16 @@ exports.update = async (req, res) => {
     const item = signService.update(params, payload);
     if (!item) return res.status(404).json({ message: 'item not found.' });
     res.json(item);
-};
+}
 
-exports.delete = (req, res) => {
+export async function remove(req, res) {
+    
     const params = {
         id: req.params.id
-    }
+    };
     const payload = {
         active: 0,
-        updated_at: timestamp(), 
+        updated_at: timestamp(),
         ...req.body
     };
     const item = signService.update(params, payload);
@@ -85,6 +90,5 @@ exports.delete = (req, res) => {
     // Jika dilakukan hard delete
     // const success = signService.delete(params);
     // if (!success) return res.status(404).json({ message: 'item not found.' });
-    
     res.status(204).send({ message: 'item deleted.' });
-};
+}

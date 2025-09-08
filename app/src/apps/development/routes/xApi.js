@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import { weather } from '../controllers/externalApiController.js';
+import { get } from '../controllers/xApiController.js';
 
 // GET semua user
-router.get('/weather', weather);
+router.get('/', get);
 
 export default router;

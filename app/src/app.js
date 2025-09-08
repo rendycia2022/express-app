@@ -1,23 +1,23 @@
-const express = require('express');
+import express, { json, urlencoded } from 'express';
 const app = express();
 
-const config = require('./config/config');
-const hostname = config.HOSTNAME;
+import { HOSTNAME } from './config/config.js';
+const hostname = HOSTNAME;
 
 // Middleware global
-app.use(express.json()); // Untuk parse body request JSON
-app.use(express.urlencoded({ extended: true })); // Untuk parse body request URL-encoded
+app.use(json()); // Untuk parse body request JSON
+app.use(urlencoded({ extended: true })); // Untuk parse body request URL-encoded
 
 app.get('/', (req, res) => {
     res.send("Hello world from Express running in "+hostname+"! Devel Now...");
 });
 
 // Routes
-const routes = require('./routers');
+import routes from './routers.js';
 app.use('/api', routes);
 
 // error log handling
-const { createLogger, transports, format } = require("winston");
+import { createLogger, transports, format } from "winston";
 const logger = createLogger({
   level: "error",
   format: format.combine(format.timestamp(), format.json()),
@@ -28,4 +28,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
 });
 
-module.exports = app;
+export default app;

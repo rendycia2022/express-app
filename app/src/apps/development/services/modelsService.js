@@ -1,12 +1,12 @@
-const fs = require('fs');
+import { readFileSync, writeFileSync } from 'fs';
 
 function readData(model) {
-  const data = fs.readFileSync(model);
+  const data = readFileSync(model);
   return JSON.parse(data);
 }
 
 function writeData(newItem, model) {
-    fs.writeFileSync(model, JSON.stringify(newItem, null, 2));
+    writeFileSync(model, JSON.stringify(newItem, null, 2));
 }
 
 class modelServices{
@@ -57,4 +57,4 @@ class modelServices{
     };
 }
 
-module.exports = modelServices;
+export default modelServices;

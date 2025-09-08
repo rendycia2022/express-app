@@ -1,20 +1,20 @@
-const express = require('express');
-const router = express.Router();
-const thisController = require('../controllers/devController');
+import { Router } from 'express';
+const router = Router();
+import { get, getBy, create, update, remove } from '../controllers/devController.js';
 
 // GET semua user
-router.get('/', thisController.get);
+router.get('/', get);
 
 // GET user berdasarkan ID
-router.get('/:id', thisController.getBy);
+router.get('/:id', getBy);
 
 // POST buat user baru
-router.post('/', thisController.create);
+router.post('/', create);
 
 // PUT update user
-router.put('/:id', thisController.update);
+router.put('/:id', update);
 
 // DELETE user
-router.delete('/:id', thisController.delete);
+router.delete('/:id', remove);
 
-module.exports = router;
+export default router;
