@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import { get } from '../controllers/xApiController.js';
+import { tweets } from '../controllers/xApiController.js';
 
 // GET semua user
-router.get('/', get);
+router.get('/tweets', tweets);
 
 export default router;
